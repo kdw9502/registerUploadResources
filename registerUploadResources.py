@@ -1,13 +1,19 @@
 import requests
 import sys
-
+from time import sleep
 
 def regUploadRes(apiUrl, marketCode, version, buildType, buildNum, adminToken):
     url = apiUrl+"/jenkinsManager/build"
     data={'token': adminToken,'marketCode': marketCode, 'version': version, 'buildType': buildType, 'buildNum': buildNum}
     print("Request: ", url, dict(data.items()))
-
-    response = requests.post(url, data=data)
+    for i in range(5):
+        try:
+            response = requests.post(url, data=data)
+        except:
+            print("post failed , %d try"%(i+1))
+            sleep(5)
+            continue
+        break
     print("Response: ", response.json())
 
     return response.ok
