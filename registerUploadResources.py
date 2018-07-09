@@ -9,11 +9,11 @@ def regUploadRes(apiUrl, marketCode, version, buildType, buildNum, adminToken):
     for i in range(5):
         try:
             response = requests.post(url, data=data)
+            break
         except:
             print("post failed , %d try"%(i+1))
             sleep(5)
-            continue
-        break
+
     print("Response: ", response.json())
 
     return response.ok
